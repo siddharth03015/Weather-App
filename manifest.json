@@ -1,0 +1,17 @@
+{
+  "name": "Weather Now",
+  "short_name": "Weather",
+  "description": "Real-time weather forecasts for any location worldwide",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0b2e",
+  "theme_color": "#0d0b2e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./assets/images/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ]
+}
