@@ -114,3 +114,9 @@ We love receiving feedback! We're always looking to improve our challenges and o
 **This challenge is completely free. Please share it with anyone who will find it useful for practice.**
 
 **Have fun building!** 🚀
+
+I've just completed a front-end coding challenge from @frontendmentor! 🎉
+
+You can see my solution here: https://www.frontendmentor.io/solutions/real-time-weather-forecasts-all-bonus-features-completed-gcMTjB3xJx
+
+Any suggestions on how I can improve are welcome!
