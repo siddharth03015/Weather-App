@@ -1,0 +1,763 @@
+/* ==========================================================================
+   WEATHER NOW — Complete Stylesheet
+   Built to match the Frontend Mentor design spec.
+   ========================================================================== */
+
+/* --- @font-face fallbacks (local fonts) --- */
+@font-face {
+  font-family: 'DM Sans';
+  src: url('./assets/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('./assets/fonts/DM_Sans/DMSans-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('./assets/fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf') format('truetype');
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+/* --- Custom Properties (Design Tokens) --- */
+:root {
+  /* Neutral palette */
+  --color-neutral-900: hsl(243, 96%, 9%);
+  --color-neutral-800: hsl(243, 27%, 20%);
+  --color-neutral-700: hsl(243, 23%, 24%);
+  --color-neutral-600: hsl(243, 23%, 30%);
+  --color-neutral-300: hsl(240, 6%, 70%);
+  --color-neutral-200: hsl(250, 6%, 84%);
+  --color-neutral-0: hsl(0, 0%, 100%);
+
+  /* Accents */
+  --color-orange-500: hsl(28, 100%, 52%);
+  --color-blue-500: hsl(233, 67%, 56%);
+  --color-blue-700: hsl(248, 70%, 36%);
+
+  /* Typography */
+  --ff-base: 'DM Sans', sans-serif;
+  --ff-display: 'Bricolage Grotesque', sans-serif;
+  --fs-base: 18px;
+
+  /* Spacing */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+}
+
+/* --- Reset --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: var(--fs-base); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--ff-base);
+  background-color: var(--color-neutral-900);
+  color: var(--color-neutral-0);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+button { cursor: pointer; font-family: inherit; }
+ul { list-style: none; }
+a { text-decoration: none; color: inherit; }
+
+/* ==========================================================================
+   LAYOUT
+   ========================================================================== */
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  width: 100%;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 960px) {
+  .main-content {
+    grid-template-columns: 1fr 340px;
+  }
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.header__logo img {
+  height: 28px;
+  width: auto;
+}
+
+/* --- Units Dropdown --- */
+.units {
+  position: relative;
+}
+
+.units__toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--color-neutral-700);
+  border: 1px solid var(--color-neutral-600);
+  color: var(--color-neutral-0);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background-color var(--transition-fast);
+}
+
+.units__toggle:hover {
+  background-color: var(--color-neutral-600);
+}
+
+.units__arrow {
+  transition: transform var(--transition-fast);
+}
+
+.units--open .units__arrow {
+  transform: rotate(180deg);
+}
+
+.units__panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: 220px;
+  background-color: var(--color-neutral-700);
+  border: 1px solid var(--color-neutral-600);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity var(--transition-base), transform var(--transition-base), visibility var(--transition-base);
+}
+
+.units--open .units__panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.units__switch {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--color-neutral-0);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 1rem;
+  transition: background-color var(--transition-fast);
+}
+
+.units__switch:hover {
+  background-color: var(--color-neutral-600);
+}
+
+.units__category {
+  font-size: 0.75rem;
+  color: var(--color-neutral-300);
+  padding: 0.5rem 1rem 0.25rem;
+  text-transform: capitalize;
+  font-weight: 500;
+  border-top: 1px solid var(--color-neutral-600);
+  margin-top: 0.25rem;
+}
+
+.units__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--color-neutral-0);
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  transition: background-color var(--transition-fast);
+}
+
+.units__option:hover {
+  background-color: var(--color-neutral-600);
+}
+
+.units__check {
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.units__option--active .units__check {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   HERO / SEARCH
+   ========================================================================== */
+
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hero__title {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.search-container {
+  position: relative;
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+.search {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.search__wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: var(--color-neutral-800);
+  border: 1px solid var(--color-neutral-600);
+  border-radius: var(--radius-sm);
+  padding: 0 1rem;
+  transition: border-color var(--transition-fast);
+}
+
+.search__wrapper:focus-within {
+  border-color: var(--color-blue-500);
+}
+
+.search__icon {
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.search__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--color-neutral-0);
+  font-size: 0.95rem;
+  padding: 0.8rem 0;
+  font-family: var(--ff-base);
+}
+
+.search__input::placeholder {
+  color: var(--color-neutral-300);
+}
+
+.search__input:focus {
+  outline: none;
+}
+
+.search__button {
+  background-color: var(--color-blue-500);
+  color: var(--color-neutral-0);
+  border: none;
+  padding: 0 1.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.search__button:hover {
+  background-color: hsl(233, 67%, 48%);
+}
+
+.search__button:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 500px) {
+  .search {
+    flex-direction: column;
+  }
+  .search__button {
+    padding: 0.8rem;
+  }
+}
+
+/* --- Search Suggestions --- */
+.search__suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--color-neutral-800);
+  border: 1px solid var(--color-neutral-600);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  z-index: 90;
+  display: none;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.search__suggestions--open {
+  display: block;
+}
+
+.search__suggestions li {
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.search__suggestions li:hover,
+.search__suggestions li:focus {
+  background-color: var(--color-neutral-700);
+}
+
+.search__suggestions li + li {
+  border-top: 1px solid var(--color-neutral-700);
+}
+
+.search__suggestions .search-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-neutral-300);
+  cursor: default;
+}
+
+.search__suggestions .search-loading img {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   CURRENT WEATHER CARD
+   ========================================================================== */
+
+.current-weather {
+  position: relative;
+  background: linear-gradient(135deg, var(--color-blue-500), var(--color-blue-700));
+  border-radius: var(--radius-lg);
+  padding: 2rem 2rem 2.5rem;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.current-weather__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.current-weather__info {
+  position: relative;
+  z-index: 1;
+}
+
+.current-weather__location {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.current-weather__date {
+  font-size: 0.85rem;
+  color: var(--color-neutral-200);
+  margin-top: 0.15rem;
+}
+
+.current-weather__temp-group {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 1;
+}
+
+.current-weather__icon {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.current-weather__temp {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   METRICS
+   ========================================================================== */
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 600px) {
+  .metrics {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.metric {
+  background-color: var(--color-neutral-800);
+  border: 1px solid var(--color-neutral-600);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.1rem;
+}
+
+.metric__label {
+  font-size: 0.8rem;
+  color: var(--color-neutral-300);
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.metric__value {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   DAILY FORECAST
+   ========================================================================== */
+
+.daily-forecast__title {
+  font-family: var(--ff-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.daily-forecast__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 0.75rem;
+}
+
+.daily-card {
+  background-color: var(--color-neutral-800);
+  border: 1px solid var(--color-neutral-600);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 0.5rem;
+  text-align: center;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.daily-card:hover {
+  border-color: var(--color-blue-500);
+  transform: translateY(-2px);
+}
+
+.daily-card__day {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.daily-card__icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 0.5rem;
+  object-fit: contain;
+}
+
+.daily-card__temps {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.daily-card__high {
+  font-weight: 600;
+}
+
+.daily-card__low {
+  color: var(--color-neutral-300);
+}
+
+/* ==========================================================================
+   HOURLY FORECAST
+   ========================================================================== */
+
+.hourly-forecast {
+  background-color: var(--color-neutral-800);
+  border: 1px solid var(--color-neutral-600);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+}
+
+.hourly-forecast__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.hourly-forecast__title {
+  font-family: var(--ff-display);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.hourly-forecast__select {
+  background-color: var(--color-neutral-700);
+  border: 1px solid var(--color-neutral-600);
+  color: var(--color-neutral-0);
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-family: var(--ff-base);
+  cursor: pointer;
+  appearance: auto;
+}
+
+.hourly-forecast__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hourly-row {
+  display: flex;
+  align-items: center;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.hourly-row:hover {
+  background-color: var(--color-neutral-700);
+}
+
+.hourly-row + .hourly-row {
+  border-top: 1px solid var(--color-neutral-700);
+}
+
+.hourly-row__icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  margin-right: 0.6rem;
+  flex-shrink: 0;
+}
+
+.hourly-row__time {
+  font-size: 0.9rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+.hourly-row__temp {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   LOADING / ERROR / NO-RESULTS STATES
+   ========================================================================== */
+
+.loading-state,
+.error-state,
+.no-results-state {
+  animation: fadeIn 0.3s ease;
+}
+
+.error-state,
+.no-results-state {
+  text-align: center;
+  padding: 5rem 1rem;
+}
+
+.error-state__title,
+.no-results-state__title {
+  font-family: var(--ff-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem;
+}
+
+.error-state__message {
+  color: var(--color-neutral-300);
+  max-width: 400px;
+  margin: 0 auto 1.5rem;
+  font-size: 0.95rem;
+}
+
+.error-state__retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--color-neutral-700);
+  border: 1px solid var(--color-neutral-600);
+  color: var(--color-neutral-0);
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color var(--transition-fast);
+}
+
+.error-state__retry:hover {
+  background-color: var(--color-neutral-600);
+}
+
+/* Skeleton cards */
+.current-weather--skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-neutral-800);
+  border: 1px solid var(--color-neutral-600);
+}
+
+.daily-card--skeleton {
+  min-height: 130px;
+}
+
+.hourly-forecast--skeleton .hourly-row--skeleton {
+  background-color: var(--color-neutral-700);
+  border-radius: var(--radius-sm);
+  min-height: 48px;
+  border: none;
+}
+
+.hourly-forecast--skeleton .hourly-row--skeleton + .hourly-row--skeleton {
+  margin-top: 0.5rem;
+}
+
+/* Loading dots animation */
+.loading-dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.loading-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-neutral-0);
+  animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.16s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.32s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+.loading-text {
+  font-size: 0.9rem;
+  color: var(--color-neutral-300);
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.attribution {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--color-neutral-300);
+  padding: 2rem 1rem 1rem;
+}
+
+.attribution a {
+  color: var(--color-blue-500);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.weather-content {
+  animation: fadeIn 0.4s ease;
+}
+
+/* ==========================================================================
+   FOCUS STYLES (Accessibility)
+   ========================================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--color-blue-500);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   HIDDEN UTILITY
+   ========================================================================== */
+
+[hidden] {
+  display: none !important;
+}
